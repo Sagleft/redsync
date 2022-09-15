@@ -30,8 +30,8 @@ package main
 
 import (
 	goredislib "github.com/go-redis/redis/v8"
-	"github.com/go-redsync/redsync/v4"
-	"github.com/go-redsync/redsync/v4/redis/goredis/v8"
+	"github.com/Sagleft/redsync"
+	"github.com/Sagleft/redsync/redis/goredis/v8"
 )
 
 func main() {
