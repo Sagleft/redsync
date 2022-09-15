@@ -5,16 +5,13 @@ import (
 	"testing"
 	"time"
 
+	"github.com/Sagleft/redsync/redis"
+	"github.com/Sagleft/redsync/redis/goredis"
+	"github.com/Sagleft/redsync/redis/redigo"
 	goredislib "github.com/go-redis/redis"
 	goredislib_v7 "github.com/go-redis/redis/v7"
 	goredislib_v8 "github.com/go-redis/redis/v8"
 	goredislib_v9 "github.com/go-redis/redis/v9"
-	"github.com/go-redsync/redsync/v4/redis"
-	"github.com/go-redsync/redsync/v4/redis/goredis"
-	goredis_v7 "github.com/go-redsync/redsync/v4/redis/goredis/v7"
-	goredis_v8 "github.com/go-redsync/redsync/v4/redis/goredis/v8"
-	goredis_v9 "github.com/go-redsync/redsync/v4/redis/goredis/v9"
-	"github.com/go-redsync/redsync/v4/redis/redigo"
 	redigolib "github.com/gomodule/redigo/redis"
 	"github.com/stvp/tempredis"
 )
@@ -35,18 +32,6 @@ func makeCases(poolCount int) map[string]*testCase {
 		"goredis": {
 			poolCount,
 			newMockPoolsGoredis(poolCount),
-		},
-		"goredis_v7": {
-			poolCount,
-			newMockPoolsGoredisV7(poolCount),
-		},
-		"goredis_v8": {
-			poolCount,
-			newMockPoolsGoredisV8(poolCount),
-		},
-		"goredis_v9": {
-			poolCount,
-			newMockPoolsGoredisV9(poolCount),
 		},
 	}
 }
