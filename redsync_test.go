@@ -9,9 +9,6 @@ import (
 	"github.com/Sagleft/redsync/redis/goredis"
 	"github.com/Sagleft/redsync/redis/redigo"
 	goredislib "github.com/go-redis/redis"
-	goredislib_v7 "github.com/go-redis/redis/v7"
-	goredislib_v8 "github.com/go-redis/redis/v8"
-	goredislib_v9 "github.com/go-redis/redis/v9"
 	redigolib "github.com/gomodule/redigo/redis"
 	"github.com/stvp/tempredis"
 )
@@ -106,51 +103,6 @@ func newMockPoolsGoredis(n int) []redis.Pool {
 			Addr:    servers[i+offset].Socket(),
 		})
 		pools[i] = goredis.NewPool(client)
-	}
-	return pools
-}
-
-func newMockPoolsGoredisV7(n int) []redis.Pool {
-	pools := make([]redis.Pool, n)
-
-	offset := GoredisV7Block * ServerPoolSize
-
-	for i := 0; i < n; i++ {
-		client := goredislib_v7.NewClient(&goredislib_v7.Options{
-			Network: "unix",
-			Addr:    servers[i+offset].Socket(),
-		})
-		pools[i] = goredis_v7.NewPool(client)
-	}
-	return pools
-}
-
-func newMockPoolsGoredisV8(n int) []redis.Pool {
-	pools := make([]redis.Pool, n)
-
-	offset := GoredisV8Block * ServerPoolSize
-
-	for i := 0; i < n; i++ {
-		client := goredislib_v8.NewClient(&goredislib_v8.Options{
-			Network: "unix",
-			Addr:    servers[i+offset].Socket(),
-		})
-		pools[i] = goredis_v8.NewPool(client)
-	}
-	return pools
-}
-
-func newMockPoolsGoredisV9(n int) []redis.Pool {
-	pools := make([]redis.Pool, n)
-
-	offset := GoredisV9Block * ServerPoolSize
-
-	for i := 0; i < n; i++ {
-		client := goredislib_v9.NewClient(&goredislib_v9.Options{
-			Network: "unix",
-			Addr:    servers[i+offset].Socket(),
-		})
-		pools[i] = goredis_v9.NewPool(client)
 	}
 	return pools
 }

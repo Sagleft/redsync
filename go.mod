@@ -1,4 +1,4 @@
-module github.com/Sagleft/redsync/v4
+module github.com/Sagleft/redsync
 
 go 1.14
 
