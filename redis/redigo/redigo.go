@@ -61,6 +61,11 @@ func (c *conn) Eval(script *redsyncredis.Script, keysAndArgs ...interface{}) (in
 	return v, noErrNil(err)
 }
 
+func (c *conn) Do(commandName string, args ...interface{}) (string, error) {
+	value, err := redis.String(c.delegate.Do(commandName, args...))
+	return value, noErrNil(err)
+}
+
 func (c *conn) Close() error {
 	err := c.delegate.Close()
 	return noErrNil(err)

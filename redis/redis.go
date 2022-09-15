@@ -20,6 +20,7 @@ type Conn interface {
 	SetNX(name string, value string, expiry time.Duration) (bool, error)
 	Eval(script *Script, keysAndArgs ...interface{}) (interface{}, error)
 	PTTL(name string) (time.Duration, error)
+	Do(commandName string, args ...interface{}) (string, error)
 	Close() error
 }
 
