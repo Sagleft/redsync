@@ -1,6 +1,7 @@
 package redsync
 
 import (
+	"context"
 	"strconv"
 	"testing"
 	"time"
@@ -9,6 +10,10 @@ import (
 )
 
 func TestMutex(t *testing.T) {
+	fatal := func(info string, args interface{}) {
+		t.Fatalf(info, args)
+	}
+
 	for k, v := range makeCases(8) {
 		t.Run(k, func(t *testing.T) {
 			mutexes := newTestMutexes(v.pools, "test-mutex", v.poolCount)
@@ -17,7 +22,7 @@ func TestMutex(t *testing.T) {
 				go func(i int, mutex *Mutex) {
 					err := mutex.Lock()
 					if err != nil {
-						t.Fatalf("mutex lock failed: %s", err)
+						fatal("mutex lock failed: %s", err)
 					}
 					defer mutex.Unlock()
 
@@ -203,7 +208,7 @@ func TestMutexLockUnlockSplit(t *testing.T) {
 func getPoolValues(pools []redis.Pool, name string) []string {
 	values := make([]string, len(pools))
 	for i, pool := range pools {
-		conn, err := pool.Get(nil)
+		conn, err := pool.Get(context.Background())
 		if err != nil {
 			panic(err)
 		}
@@ -220,7 +225,7 @@ func getPoolValues(pools []redis.Pool, name string) []string {
 func getPoolExpiries(pools []redis.Pool, name string) []int {
 	expiries := make([]int, len(pools))
 	for i, pool := range pools {
-		conn, err := pool.Get(nil)
+		conn, err := pool.Get(context.Background())
 		if err != nil {
 			panic(err)
 		}
@@ -241,7 +246,7 @@ func clogPools(pools []redis.Pool, mask int, mutex *Mutex) int {
 			n++
 			continue
 		}
-		conn, err := pool.Get(nil)
+		conn, err := pool.Get(context.Background())
 		if err != nil {
 			panic(err)
 		}

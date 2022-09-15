@@ -6,9 +6,7 @@ import (
 	"time"
 
 	"github.com/Sagleft/redsync/redis"
-	"github.com/Sagleft/redsync/redis/goredis"
 	"github.com/Sagleft/redsync/redis/redigo"
-	goredislib "github.com/go-redis/redis"
 	redigolib "github.com/gomodule/redigo/redis"
 	"github.com/stvp/tempredis"
 )
@@ -26,10 +24,6 @@ func makeCases(poolCount int) map[string]*testCase {
 			poolCount,
 			newMockPoolsRedigo(poolCount),
 		},
-		"goredis": {
-			poolCount,
-			newMockPoolsGoredis(poolCount),
-		},
 	}
 }
 
@@ -37,10 +31,6 @@ func makeCases(poolCount int) map[string]*testCase {
 const ServerPools = 5
 const ServerPoolSize = 8
 const RedigoBlock = 0
-const GoredisBlock = 1
-const GoredisV7Block = 2
-const GoredisV8Block = 3
-const GoredisV9Block = 4
 
 func TestMain(m *testing.M) {
 	for i := 0; i < ServerPoolSize*ServerPools; i++ {
@@ -88,21 +78,6 @@ func newMockPoolsRedigo(n int) []redis.Pool {
 				return err
 			},
 		})
-	}
-	return pools
-}
-
-func newMockPoolsGoredis(n int) []redis.Pool {
-	pools := make([]redis.Pool, n)
-
-	offset := GoredisBlock * ServerPoolSize
-
-	for i := 0; i < n; i++ {
-		client := goredislib.NewClient(&goredislib.Options{
-			Network: "unix",
-			Addr:    servers[i+offset].Socket(),
-		})
-		pools[i] = goredis.NewPool(client)
 	}
 	return pools
 }
